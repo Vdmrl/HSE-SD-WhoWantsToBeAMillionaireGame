@@ -41,6 +41,6 @@ class Game:
             self._round += 1
         else:
             self._round = 0
-        print(f"{self._round}")
+        print(f"{self._round=}")
 
 
