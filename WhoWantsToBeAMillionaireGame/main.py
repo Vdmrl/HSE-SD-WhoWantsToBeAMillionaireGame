@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from api.main import api_router
 
 app = FastAPI(title="Who wants to be a millionaire?")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/templates/static", StaticFiles(directory="templates/static"), name="static")
 
 # middleware
 origins = [

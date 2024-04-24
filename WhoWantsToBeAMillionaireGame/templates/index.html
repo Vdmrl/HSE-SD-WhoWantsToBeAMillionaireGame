@@ -3,8 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Who wants to be a millionaire</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="{{ url_for('static', path='js/script.js') }}"></script> -->
 </head>
 <body>
-
+    <div>
+        <div style="margin-top: 50px; font-size: 26px">
+            Подсказки
+        </div>
+        <div>
+            <!--  подсказки  -->
+        </div>
+    </div>
+    <div>
+        <img src="{{ url_for('static', path='/images/maxresdefault.jpg')}}" alt="beautiful_image" width="800" height="400">
+        <div style="margin-top: 50px; font-size: 24px">
+            Вопрос
+        </div>
+        <div class="button-container">
+            <div class="button-group">
+                <button class="button">Button 1</button>
+                <button class="button">Button 2</button>
+            </div>
+            <div class="button-group">
+                <button class="button">Button 3</button>
+                <button class="button">Button 4</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div style="margin-top: 50px; font-size: 26px">
+            Раунды
+        </div>
+        <div>
+            <!-- раунды -->
+        </div>
+    </div>
 </body>
 </html>
