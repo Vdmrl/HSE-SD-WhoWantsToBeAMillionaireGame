@@ -1,13 +1,24 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from api.main import api_router
 
-app = FastAPI()
+app = FastAPI(title="Who wants to be a millionaire?")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# middleware
+origins = [
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "PATCH", "DELETE", "PUT"],
+    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers",
+                   "Access-Control-Allow-Origin", "Authorization"],
+)
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app.include_router(api_router)
