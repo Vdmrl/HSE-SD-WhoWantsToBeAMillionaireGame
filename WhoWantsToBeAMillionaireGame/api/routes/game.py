@@ -171,7 +171,8 @@ async def friend(request: Request, name: str):
     global current_quest
     if current_game.help_friend:
         current_game.help_friend = False
-    current_game._round += 1
+        current_game._round += 1
+        current_quest = await current_game.get_question()
 
     return templates.TemplateResponse("index.html", {
         "request": request,
