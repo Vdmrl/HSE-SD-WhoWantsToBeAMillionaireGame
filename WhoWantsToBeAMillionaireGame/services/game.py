@@ -15,6 +15,10 @@ class Game:
     def __init__(self):
         self._round = 0
         self.help_divide = True
+        self.help_change = True
+        self.help_extra_live = True
+        self.help_friend = True
+        self.help_audience = True
         self._right_answer = None
 
     @property
@@ -35,7 +39,7 @@ class Game:
                 print(f"{question.right_answer=}")
                 self._right_answer = question.right_answer
                 return [question.text, question.answer1, question.answer2, question.answer3, question.answer4,
-                        question.right_answer]
+                        question.right_answer, question.level]
             else:
                 return None
 
@@ -44,6 +48,11 @@ class Game:
             self._round += 1
         else:
             await Game._add_record(name, self._round)
+            self.help_divide = True
+            self.help_change = True
+            self.help_extra_live = True
+            self.help_friend = True
+            self.help_audience = True
             self._round = 0
 
     @staticmethod
