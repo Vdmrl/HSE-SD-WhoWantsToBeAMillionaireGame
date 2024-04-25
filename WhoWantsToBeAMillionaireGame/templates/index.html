@@ -11,37 +11,71 @@
     <script src="{{ url_for('static', path='js/index.js') }}"></script>
 </head>
 <body>
-    <div>
-        <div style="margin-top: 50px; font-size: 26px">
-            Подсказки
-        </div>
-        <div>
-            <!--  подсказки  -->
-        </div>
+<div>
+    <div style="margin-top: 50px; font-size: 26px">
+        Подсказки
     </div>
     <div>
-        <img src="{{ url_for('static', path='/images/maxresdefault.jpg')}}" alt="beautiful_image" width="800" height="400">
-        <div style="margin-top: 50px; font-size: 24px" id="question">
-            {{ question }}
+        <button class="button button-blue" type="button" onclick="window['some-modal-id'].showModal()"
+                aria-controls="some-modal-id">
+            Звонок другу
+        </button>
+    </div>
+</div>
+<div>
+    <img src="{{ url_for('static', path='/images/maxresdefault.jpg') }}" alt="beautiful_image" width="800" height="400">
+    <div style="margin-top: 50px; font-size: 24px" id="question">
+        {{ question }}
+    </div>
+    <div class="button-container">
+        <div class="button-group">
+            <form action="/1/" method="post">
+                <button class="button" onclick="" id="ans1">{{ ans1 }}</button>
+            </form>
+            <form action="/2/" method="post">
+                <button class="button" onclick="" id="ans2">{{ ans2 }}</button>
+            </form>
         </div>
-        <div class="button-container">
-            <div class="button-group">
-                <button class="button" onclick="PostAnswer('1'); GetAnswer('1')" id="ans1">{{ ans1 }}</button>
-                <button class="button" onclick="PostAnswer('2'); GetAnswer('2')" id="ans2">{{ ans2 }}</button>
-            </div>
-            <div class="button-group">
-                <button class="button" onclick="PostAnswer('3'); GetAnswer('3')" id="ans3">{{ ans3 }}</button>
-                <button class="button" onclick="PostAnswer('4'); GetAnswer('4')" id="ans4">{{ ans4 }}</button>
-            </div>
+        <div class="button-group">
+            <form action="/3/" method="post">
+                <button class="button" onclick="" id="ans3">{{ ans3 }}</button>
+            </form>
+            <form action="/4/" method="post">
+                <button class="button" onclick="" id="ans4">{{ ans4 }}</button>
+            </form>
         </div>
+    </div>
+</div>
+<div>
+    <div style="margin-top: 50px; font-size: 26px">
+        Раунды
     </div>
     <div>
-        <div style="margin-top: 50px; font-size: 26px">
-            Раунды
-        </div>
-        <div>
-            <!-- раунды -->
-        </div>
+        {% for a in awards %}
+            {% if a == award %}
+                <div style="color: limegreen">
+                    {{ a }}
+                </div>
+            {% else %}
+                <div>
+                    {{ a }}
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
+</div>
+
+
+<dialog class="dialog" id="some-modal-id" aria-labelledby="dialog-name">
+    <h2 class="dialog__title" id="dialog-name">Я модальное окно</h2>
+    <p>Весь остальной контент на странице недоступен, когда я открыто.</p>
+    <form method="dialog">
+        <button class="dialog__button button-orange">
+            Ясно-понятно 👍
+        </button>
+    </form>
+</dialog>
+
+
 </body>
 </html>

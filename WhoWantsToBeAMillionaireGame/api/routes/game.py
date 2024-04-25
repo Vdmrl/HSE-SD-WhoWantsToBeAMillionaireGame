@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.exceptions import HTTPException
 from fastapi.templating import Jinja2Templates
 from starlette.responses import HTMLResponse, JSONResponse
-from services.game import Game
+from services import game
 
 router = APIRouter(
     prefix="",
@@ -10,33 +10,39 @@ router = APIRouter(
 )
 
 templates = Jinja2Templates(directory="templates")
-game = Game()
+current_game = game.Game()
 
 @router.get("/", response_class=HTMLResponse)
 async def get_members(request: Request):
-    question = await game.get_question()
+    question = await current_game.get_question()
     return templates.TemplateResponse("index.html", {
         "request": request,
         "question": question[0],
         "ans1": question[1],
         "ans2": question[2],
         "ans3": question[3],
-        "ans4": question[4]
+        "ans4": question[4],
+        "awards": list(reversed(game.win_amounts)),
+        "award": game.win_amounts[current_game.round]
     })
 
 
 @router.post("/{answer}")
-def choose_answer( answer: str):
+async def choose_answer(request: Request, answer: str):
     print(f"{answer=}")
-    game.give_answer(int(answer))
-
-@router.get("/next")
-async def get_question():
-    question = await game.get_question()
-    return JSONResponse({
+    current_game.give_answer(int(answer))
+    question = await current_game.get_question()
+    return templates.TemplateResponse("index.html", {
+        "request": request,
         "question": question[0],
         "ans1": question[1],
         "ans2": question[2],
         "ans3": question[3],
-        "ans4": question[4]
+        "ans4": question[4],
+        "awards": list(reversed(game.win_amounts)),
+        "award": game.win_amounts[current_game.round]
     })
+
+@router.get("/favicon.ico")
+async def get_favicon():
+    pass
