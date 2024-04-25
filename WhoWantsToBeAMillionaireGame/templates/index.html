@@ -19,11 +19,16 @@
         {% if is_divide %}
             <form action="/{{ name }}/divide" method="post">
             <button class="button">50/50</button>
+            </form>
         {% endif %}
         {% if is_change %}
-            </form>
             <form action="/{{ name }}/change" method="post">
                 <button class="button">поменять вопрос</button>
+            </form>
+        {% endif %}
+        {% if is_extra_life %}
+            <form action="/{{ name }}/extra_life" method="post">
+                <button class="button">право на ошибку</button>
             </form>
         {% endif %}
     </div>

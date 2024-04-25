@@ -20,6 +20,7 @@ class Game:
         self.help_friend = True
         self.help_audience = True
         self._right_answer = None
+        self.is_extra_life_activated = False
 
     @property
     def round(self):
@@ -43,17 +44,26 @@ class Game:
             else:
                 return None
 
-    async def give_answer(self, name: str, ans: int) -> None:
+    async def give_answer(self, name: str, ans: int) -> bool: # return: is skipped
+        print(f"{ans=}")
+        print(f"{self._right_answer=}")
         if ans == self._right_answer:
             self._round += 1
-        else:
-            await Game._add_record(name, self._round)
-            self.help_divide = True
-            self.help_change = True
-            self.help_extra_live = True
-            self.help_friend = True
-            self.help_audience = True
-            self._round = 0
+            self.is_extra_life_activated = False
+        else:  # lose
+            if not self.is_extra_life_activated:
+                await Game._add_record(name, self._round)
+                self.help_divide = True
+                self.help_change = True
+                self.help_extra_live = True
+                self.help_friend = True
+                self.help_audience = True
+                self._round = 0
+            else:
+                self.is_extra_life_activated = False
+                return True
+        return False
+
 
     @staticmethod
     async def _add_record(name: str, record: int) -> None:
@@ -68,4 +78,3 @@ class Game:
             query = (select(Record).order_by(Record.record.desc()).limit(top))
             result = await session.execute(query)
             return result.scalars().all()
-
