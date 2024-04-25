@@ -48,7 +48,8 @@ async def get_members(request: Request, name: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
     })
 
 
@@ -99,7 +100,8 @@ async def divide(request: Request, name: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
     })
 
 
@@ -129,7 +131,8 @@ async def change(request: Request, name: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
     })
 
 
@@ -159,7 +162,8 @@ async def extra_life(request: Request, name: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
     })
 
 @router.get("/{name}/friend/")
@@ -188,7 +192,38 @@ async def friend(request: Request, name: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
+    })
+
+@router.post("/{name}/audience/")
+async def audience(request: Request, name: str):
+    global current_quest
+    if current_game.help_audience and current_quest:
+        game.Game.get_chart(int(current_quest[5]))
+        current_game.help_audience = False
+
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "name": name,
+        "question": current_quest[0],
+        "is_divide": current_game.help_divide,
+        "is_change": current_game.help_change,
+        "is_extra_life": current_game.help_extra_live,
+        "is_friend": current_game.help_friend,
+        "is_audience": current_game.help_audience,
+        "is_shown1": True,
+        "is_shown2": True,
+        "is_shown3": True,
+        "is_shown4": True,
+        "ans1": current_quest[1],
+        "ans2": current_quest[2],
+        "ans3": current_quest[3],
+        "ans4": current_quest[4],
+        "awards": list(reversed(game.win_amounts)),
+        "award": game.win_amounts[current_game.round],
+        "records": await game.Game.get_records(10),
+        "is_chart": True
     })
 
 @router.post("/{name}/{answer}/")
@@ -227,7 +262,8 @@ async def choose_answer(request: Request, name: str, answer: str):
         "ans4": current_quest[4],
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
-        "records": await game.Game.get_records(10)
+        "records": await game.Game.get_records(10),
+        "is_chart": False
     })
 
 

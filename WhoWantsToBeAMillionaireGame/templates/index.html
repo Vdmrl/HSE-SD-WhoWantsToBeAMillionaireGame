@@ -12,6 +12,12 @@
 </head>
 <body class="text-sky-400/100"> <!-- Added class to the body element -->
 <div>
+    {% if is_chart %}
+    <div>
+        <img src="{{ url_for('static', path='/images/chart.jpg') }}" alt="chart" width="300" height="300">
+    </div>
+    {% endif %}
+
     <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
         Подсказки
     </div>
@@ -39,6 +45,11 @@
                 </button>
             </div>
         {% endif %}
+        {% if is_audience %}
+            <form action="/{{ name }}/audience" method="post">
+                <button class="button">Помощь зала</button>
+            </form>
+        {% endif %}
     </div>
 
 </div>
@@ -52,24 +63,24 @@
         <div class="button-group">
             {% if is_shown1 %}
                 <form action="/{{ name }}/1/" method="post">
-                    <button class="button" onclick="" id="ans1">{{ ans1 }}</button>
+                    <button class="button" onclick="" id="ans1">1) {{ ans1 }}</button>
                 </form>
             {% endif %}
             {% if is_shown2 %}
                 <form action="/{{ name }}/2" method="post">
-                    <button class="button" onclick="" id="ans2">{{ ans2 }}</button>
+                    <button class="button" onclick="" id="ans2">2) {{ ans2 }}</button>
                 </form>
             {% endif %}
         </div>
         <div class="button-group">
             {% if is_shown3 %}
                 <form action="/{{ name }}/3/" method="post">
-                    <button class="button" onclick="" id="ans3">{{ ans3 }}</button>
+                    <button class="button" onclick="" id="ans3">3) {{ ans3 }}</button>
                 </form>
             {% endif %}
             {% if is_shown4 %}
                 <form action="/{{ name }}/4/" method="post">
-                    <button class="button" onclick="" id="ans4">{{ ans4 }}</button>
+                    <button class="button" onclick="" id="ans4">4) {{ ans4 }}</button>
                 </form>
             {% endif %}
         </div>

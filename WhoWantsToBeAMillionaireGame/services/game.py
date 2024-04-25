@@ -1,9 +1,12 @@
+import random
 from typing import Tuple, List
 
 from sqlalchemy import select
 
 from db.engine import async_session_factory
 from db.models.game import Record, Question
+
+import matplotlib.pyplot as plt
 
 from random import choice
 
@@ -29,7 +32,7 @@ class Game:
     async def get_question(self) -> List[str]:
         """
         choose current question
-        :return: (question, ans1, ans2, ans3, ans4))
+        :return: (question, ans1, ans2, ans3, ans4, ans, level))
         """
         async with async_session_factory() as session:
             query = (select(Question).where(Question.level == self._round + 1))
@@ -78,3 +81,15 @@ class Game:
             query = (select(Record).order_by(Record.record.desc()).limit(top))
             result = await session.execute(query)
             return result.scalars().all()
+
+    @staticmethod
+    def get_chart(answer: int) -> None:
+        answers = ["1", "2", "3", "4"]
+        percentages = [5, 5, 5, 5]
+        percentages[answer-1] += 45
+        for i in range(7):
+            percentages[random.randint(0,3)] += 5
+        plt.bar(answers, percentages)
+
+        plt.savefig('templates/static/images/chart.jpg', dpi=400)
+        plt.close()
