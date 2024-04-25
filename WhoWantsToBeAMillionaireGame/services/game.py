@@ -14,6 +14,7 @@ win_amounts = [500, 1000, 2000, 3000, 5000, 10000, 15000, 25000, 50000, 100000, 
 class Game:
     def __init__(self):
         self._round = 0
+        self.help_divide = True
         self._right_answer = None
 
     @property
@@ -58,3 +59,4 @@ class Game:
             query = (select(Record).order_by(Record.record.desc()).limit(top))
             result = await session.execute(query)
             return result.scalars().all()
+

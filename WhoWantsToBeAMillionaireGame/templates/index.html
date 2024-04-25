@@ -16,6 +16,13 @@
         Подсказки
     </div>
     <div>
+        {% if is_divide %}
+        <form action="/{{ name }}/divide" method="post">
+            <button class="button">50/50</button>
+        </form>
+        {% endif %}
+    </div>
+    <div>
         <!-- Modal toggle -->
         <button data-modal-target="default-modal" data-modal-toggle="default-modal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -32,20 +39,28 @@
     </div>
     <div class="button-container">
         <div class="button-group">
+            {% if is_shown1 %}
             <form action="/{{ name }}/1/" method="post">
                 <button class="button" onclick="" id="ans1">{{ ans1 }}</button>
             </form>
+            {% endif %}
+            {% if is_shown2 %}
             <form action="/{{ name }}/2" method="post">
                 <button class="button" onclick="" id="ans2">{{ ans2 }}</button>
             </form>
+            {% endif %}
         </div>
         <div class="button-group">
+            {% if is_shown3 %}
             <form action="/{{ name }}/3/" method="post">
                 <button class="button" onclick="" id="ans3">{{ ans3 }}</button>
             </form>
+            {% endif %}
+            {% if is_shown4 %}
             <form action="/{{ name }}/4/" method="post">
                 <button class="button" onclick="" id="ans4">{{ ans4 }}</button>
             </form>
+            {% endif %}
         </div>
     </div>
 </div>
