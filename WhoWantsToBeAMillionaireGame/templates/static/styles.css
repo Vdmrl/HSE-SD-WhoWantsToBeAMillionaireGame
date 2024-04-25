@@ -7,6 +7,7 @@ body {
     padding: 20px;
     margin-right: 0;
     padding-right: 0;
+    background-color: #111827;
 }
 
 .button-container {
@@ -23,7 +24,7 @@ body {
 
 .button {
     margin: 20px 0;
-    padding: 25px 100px;
+    padding: 20px 60px;
     font-size: 20px;
     cursor: pointer;
     background-color: #007bff;
