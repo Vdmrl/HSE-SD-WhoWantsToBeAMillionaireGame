@@ -19,7 +19,7 @@ is_first = True
 
 @router.get("/", response_class=HTMLResponse)
 async def registration(request: Request):
-    return templates.TemplateResponse("registration.html", {"request": request})
+    return templates.TemplateResponse("registration.html", {"request": request, "is_win": False})
 
 
 @router.get("/{name}/", response_class=HTMLResponse)
@@ -63,6 +63,11 @@ async def get_members(request: Request, name: str):
         "is_chart": False,
         "is_start": True
     })
+
+
+@router.get("/{name}/{hints}/win/")
+async def win(request: Request, name: str, hints: str):
+    return templates.TemplateResponse("registration.html", {"request": request, "is_win": True})
 
 
 @router.post("/{name}/{hints}/divide/")
@@ -302,6 +307,9 @@ async def choose_answer(request: Request, name: str, hints: str, answer: str):
     global current_quest
     global is_first
     is_skipped = await current_game.give_answer(name, int(answer))
+    print("текущий раунд:", current_game.round)
+    if current_game.round >= 15:
+        return RedirectResponse(f"http://127.0.0.1:8000/{name}/{hints}/win/")
     if (not is_skipped) and (
             not current_quest or current_game.round == 0 or current_quest[6] != current_game.round + 1):
         current_quest = await current_game.get_question()

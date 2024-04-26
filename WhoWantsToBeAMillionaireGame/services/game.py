@@ -52,6 +52,8 @@ class Game:
         print(f"{self._right_answer=}")
         if ans == self._right_answer:
             self._round += 1
+            if self._round >= len(win_amounts):
+                await Game._add_record(name, self._round)
             self.is_extra_life_activated = False
         else:  # lose
             if not self.is_extra_life_activated:
