@@ -12,6 +12,14 @@
 </head>
 <body class="text-sky-400/100"> <!-- Added class to the body element -->
 <div>
+    <div style="position: fixed; top: 10px; left: 10px">
+        <form action="/" method="get">
+            <button type="submit">
+                <img src="{{ url_for('static', path='/images/exit.png') }}" alt="exit" width="50" height="50"/>
+            </button>
+        </form>
+    </div>
+
     {% if is_chart %}
         <div>
             <img src="{{ url_for('static', path='/images/chart.jpg') }}" alt="chart" width="300" height="300">
