@@ -22,12 +22,12 @@
         <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
             Выберете подсказки
         </div>
-        <form action="/submit_hints" method="post" id="hintsForm">
-            <input type="checkbox" name="hint" value="50/50"> Выбрать подсказку 50/50<br>
-            <input type="checkbox" name="hint" value="Change question"> Выбрать подсказку поменять вопрос<br>
-            <input type="checkbox" name="hint" value="Second chance"> Выбрать подсказку право на ошибку<br>
-            <input type="checkbox" name="hint" value="Phone a friend"> Выбрать подсказку Звонок другу<br>
-            <input type="checkbox" name="hint" value="Ask the audience"> Выбрать подсказку Помощь зала<br>
+        <form id="hintsForm">
+            <input type="checkbox" name="hint" value="1"> Выбрать подсказку 50/50<br>
+            <input type="checkbox" name="hint" value="2"> Выбрать подсказку поменять вопрос<br>
+            <input type="checkbox" name="hint" value="3"> Выбрать подсказку право на ошибку<br>
+            <input type="checkbox" name="hint" value="4"> Выбрать подсказку Звонок другу<br>
+            <input type="checkbox" name="hint" value="5"> Выбрать подсказку Помощь зала<br>
         </form>
     {% else %}
         <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
@@ -35,17 +35,17 @@
         </div>
         <div>
             {% if is_divide %}
-                <form action="/{{ name }}/divide" method="post">
+                <form action="/{{ name }}/{{ hints }}/divide" method="post">
                     <button class="button">50/50</button>
                 </form>
             {% endif %}
             {% if is_change %}
-                <form action="/{{ name }}/change" method="post">
+                <form action="/{{ name }}/{{ hints }}/change" method="post">
                     <button class="button">поменять вопрос</button>
                 </form>
             {% endif %}
             {% if is_extra_life %}
-                <form action="/{{ name }}/extra_life" method="post">
+                <form action="/{{ name }}/{{ hints }}/extra_life" method="post">
                     <button class="button">право на ошибку</button>
                 </form>
             {% endif %}
@@ -58,7 +58,7 @@
                 </div>
             {% endif %}
             {% if is_audience %}
-                <form action="/{{ name }}/audience" method="post">
+                <form action="/{{ name }}/{{ hints }}/audience" method="post">
                     <button class="button">Помощь зала</button>
                 </form>
             {% endif %}
@@ -68,10 +68,8 @@
 <div>
     <img src="{{ url_for('static', path='/images/maxresdefault.jpg') }}" alt="beautiful_image" width="800" height="400">
     {% if is_start %}
-        <div style="text-align: center">
-            <form action="/{{ name }}/0/" method="post">
-                <button class="button">Начать игру</button>
-            </form>
+        <div>
+            <button id="startButton" class="button">Начать игру</button>
         </div>
     {% else %}
         <div style="margin-top: 50px; font-size: 24px" id="question" class="text-sky-400/100">
@@ -80,24 +78,24 @@
         <div class="button-container">
             <div class="button-group">
                 {% if is_shown1 %}
-                    <form action="/{{ name }}/1/" method="post">
+                    <form action="/{{ name }}/{{ hints }}/1/" method="get">
                         <button class="button" onclick="" id="ans1">1) {{ ans1 }}</button>
                     </form>
                 {% endif %}
                 {% if is_shown2 %}
-                    <form action="/{{ name }}/2" method="post">
+                    <form action="/{{ name }}/{{ hints }}/2" method="get">
                         <button class="button" onclick="" id="ans2">2) {{ ans2 }}</button>
                     </form>
                 {% endif %}
             </div>
             <div class="button-group">
                 {% if is_shown3 %}
-                    <form action="/{{ name }}/3/" method="post">
+                    <form action="/{{ name }}/{{ hints }}/3/" method="get">
                         <button class="button" onclick="" id="ans3">3) {{ ans3 }}</button>
                     </form>
                 {% endif %}
                 {% if is_shown4 %}
-                    <form action="/{{ name }}/4/" method="post">
+                    <form action="/{{ name }}/{{ hints }}/4/" method="get">
                         <button class="button" onclick="" id="ans4">4) {{ ans4 }}</button>
                     </form>
                 {% endif %}
@@ -212,7 +210,7 @@
             clearInterval(timer);
             var userInput = document.getElementById("user-input").value.trim(); // Trim user input
             if (userInput === phoneNumber.toString()) { // Convert phoneNumber to string for comparison
-                window.location.href = "http://127.0.0.1:8000/{{ name }}/friend";
+                window.location.href = "http://127.0.0.1:8000/{{ name }}/{{ hints }}/friend";
             } else {
                 closeModal();
             }
@@ -245,6 +243,15 @@
                 this.checked = false;
             }
         });
+    });
+    document.getElementById("startButton").addEventListener("click", function () {
+        var selectedHints = Array.from(document.querySelectorAll('input[type=checkbox][name="hint"]:checked'))
+            .map(function (checkbox) {
+                return checkbox.value;
+            })
+            .join('');
+        var url = "http://127.0.0.1:8000/{{ name }}/" + (selectedHints.length > 0 ? selectedHints : "0") + "/0";
+        window.location.href = url;
     });
 </script>
 </body>

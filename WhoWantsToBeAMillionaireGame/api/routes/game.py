@@ -54,8 +54,8 @@ async def get_members(request: Request, name: str):
     })
 
 
-@router.post("/{name}/divide/")
-async def divide(request: Request, name: str):
+@router.post("/{name}/{hints}/divide/")
+async def divide(request: Request, name: str, hints: str):
     global current_quest
     if not current_game.is_extra_life_activated and not current_quest or current_game.round == 0 or current_quest[
         6] != current_game.round + 1:
@@ -85,12 +85,13 @@ async def divide(request: Request, name: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": show1,
         "is_shown2": show2,
         "is_shown3": show3,
@@ -107,8 +108,8 @@ async def divide(request: Request, name: str):
     })
 
 
-@router.post("/{name}/change/")
-async def change(request: Request, name: str):
+@router.post("/{name}/{hints}/change/")
+async def change(request: Request, name: str, hints: str):
     global current_quest
     if current_game.help_change:
         current_game.help_change = False
@@ -117,12 +118,13 @@ async def change(request: Request, name: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -139,8 +141,8 @@ async def change(request: Request, name: str):
     })
 
 
-@router.post("/{name}/extra_life/")
-async def extra_life(request: Request, name: str):
+@router.post("/{name}/{hints}/extra_life/")
+async def extra_life(request: Request, name: str, hints: str):
     global current_quest
     if current_game.help_extra_live:
         current_game.help_extra_live = False
@@ -149,12 +151,13 @@ async def extra_life(request: Request, name: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -170,8 +173,9 @@ async def extra_life(request: Request, name: str):
         "is_start": False
     })
 
-@router.get("/{name}/friend/")
-async def friend(request: Request, name: str):
+
+@router.get("/{name}/{hints}/friend/")
+async def friend(request: Request, name: str, hints: str):
     global current_quest
     if current_game.help_friend:
         current_game.help_friend = False
@@ -181,12 +185,13 @@ async def friend(request: Request, name: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -202,8 +207,9 @@ async def friend(request: Request, name: str):
         "is_start": False
     })
 
-@router.post("/{name}/audience/")
-async def audience(request: Request, name: str):
+
+@router.post("/{name}/{hints}/audience/")
+async def audience(request: Request, name: str, hints: str):
     global current_quest
     if current_game.help_audience and current_quest:
         game.Game.get_chart(int(current_quest[5]))
@@ -212,12 +218,13 @@ async def audience(request: Request, name: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -233,8 +240,9 @@ async def audience(request: Request, name: str):
         "is_start": False
     })
 
-@router.post("/{name}/{answer}/")
-async def choose_answer(request: Request, name: str, answer: str):
+
+@router.get("/{name}/{hints}/{answer}/")
+async def choose_answer(request: Request, name: str, hints: str, answer: str):
     global current_quest
     is_skipped = await current_game.give_answer(name, int(answer))
     if (not is_skipped) and (
@@ -253,12 +261,13 @@ async def choose_answer(request: Request, name: str, answer: str):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "name": name,
+        "hints": hints,
         "question": current_quest[0],
-        "is_divide": current_game.help_divide,
-        "is_change": current_game.help_change,
-        "is_extra_life": current_game.help_extra_live,
-        "is_friend": current_game.help_friend,
-        "is_audience": current_game.help_audience,
+        "is_divide": current_game.help_divide and "1" in hints,
+        "is_change": current_game.help_change and "2" in hints,
+        "is_extra_life": current_game.help_extra_live and "3" in hints,
+        "is_friend": current_game.help_friend and "4" in hints,
+        "is_audience": current_game.help_audience and "5" in hints,
         "is_shown1": show1,
         "is_shown2": show2,
         "is_shown3": show3,
