@@ -41,6 +41,9 @@
         {% if play_audience %}
             <audio autoplay src="{{ url_for('static', path='/sounds/audience.mp3') }}"></audio>
         {% endif %}
+        {% if play_friend %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/right.mp3') }}"></audio>
+        {% endif %}
     {% endif %}
     <!-- end audion -->
 
