@@ -13,78 +13,91 @@
 <body class="text-sky-400/100"> <!-- Added class to the body element -->
 <div>
     {% if is_chart %}
-    <div>
-        <img src="{{ url_for('static', path='/images/chart.jpg') }}" alt="chart" width="300" height="300">
-    </div>
+        <div>
+            <img src="{{ url_for('static', path='/images/chart.jpg') }}" alt="chart" width="300" height="300">
+        </div>
     {% endif %}
 
-    <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
-        Подсказки
-    </div>
-    <div>
-        {% if is_divide %}
-            <form action="/{{ name }}/divide" method="post">
-                <button class="button">50/50</button>
-            </form>
-        {% endif %}
-        {% if is_change %}
-            <form action="/{{ name }}/change" method="post">
-                <button class="button">поменять вопрос</button>
-            </form>
-        {% endif %}
-        {% if is_extra_life %}
-            <form action="/{{ name }}/extra_life" method="post">
-                <button class="button">право на ошибку</button>
-            </form>
-        {% endif %}
-        {% if is_friend %}
-            <div>
-                <button id="friend-button" data-modal-target="default-modal" data-modal-toggle="default-modal"
-                        class="button">
-                    Звонок другу
-                </button>
-            </div>
-        {% endif %}
-        {% if is_audience %}
-            <form action="/{{ name }}/audience" method="post">
-                <button class="button">Помощь зала</button>
-            </form>
-        {% endif %}
-    </div>
-
+    {% if is_start %}
+        <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
+            Выберете подсказки
+        </div>
+        <!-- Выбор подсказок -->
+    {% else %}
+        <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
+            Подсказки
+        </div>
+        <div>
+            {% if is_divide %}
+                <form action="/{{ name }}/divide" method="post">
+                    <button class="button">50/50</button>
+                </form>
+            {% endif %}
+            {% if is_change %}
+                <form action="/{{ name }}/change" method="post">
+                    <button class="button">поменять вопрос</button>
+                </form>
+            {% endif %}
+            {% if is_extra_life %}
+                <form action="/{{ name }}/extra_life" method="post">
+                    <button class="button">право на ошибку</button>
+                </form>
+            {% endif %}
+            {% if is_friend %}
+                <div>
+                    <button id="friend-button" data-modal-target="default-modal" data-modal-toggle="default-modal"
+                            class="button">
+                        Звонок другу
+                    </button>
+                </div>
+            {% endif %}
+            {% if is_audience %}
+                <form action="/{{ name }}/audience" method="post">
+                    <button class="button">Помощь зала</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
 <div>
     <img src="{{ url_for('static', path='/images/maxresdefault.jpg') }}" alt="beautiful_image" width="800" height="400">
-    <div style="margin-top: 50px; font-size: 24px" id="question" class="text-sky-400/100">
-        <!-- Added class to the div element -->
-        {{ question }}
-    </div>
-    <div class="button-container">
-        <div class="button-group">
-            {% if is_shown1 %}
-                <form action="/{{ name }}/1/" method="post">
-                    <button class="button" onclick="" id="ans1">1) {{ ans1 }}</button>
-                </form>
-            {% endif %}
-            {% if is_shown2 %}
-                <form action="/{{ name }}/2" method="post">
-                    <button class="button" onclick="" id="ans2">2) {{ ans2 }}</button>
-                </form>
-            {% endif %}
+    {% if is_start %}
+        <div style="text-align: center">
+            <form action="/{{ name }}/0/" method="post">
+                <button class="button">Начать игру</button>
+            </form>
         </div>
-        <div class="button-group">
-            {% if is_shown3 %}
-                <form action="/{{ name }}/3/" method="post">
-                    <button class="button" onclick="" id="ans3">3) {{ ans3 }}</button>
-                </form>
-            {% endif %}
-            {% if is_shown4 %}
-                <form action="/{{ name }}/4/" method="post">
-                    <button class="button" onclick="" id="ans4">4) {{ ans4 }}</button>
-                </form>
-            {% endif %}
+    {% else %}
+        <div style="margin-top: 50px; font-size: 24px" id="question" class="text-sky-400/100">
+            {{ question }}
         </div>
-    </div>
+        <div class="button-container">
+            <div class="button-group">
+                {% if is_shown1 %}
+                    <form action="/{{ name }}/1/" method="post">
+                        <button class="button" onclick="" id="ans1">1) {{ ans1 }}</button>
+                    </form>
+                {% endif %}
+                {% if is_shown2 %}
+                    <form action="/{{ name }}/2" method="post">
+                        <button class="button" onclick="" id="ans2">2) {{ ans2 }}</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="button-group">
+                {% if is_shown3 %}
+                    <form action="/{{ name }}/3/" method="post">
+                        <button class="button" onclick="" id="ans3">3) {{ ans3 }}</button>
+                    </form>
+                {% endif %}
+                {% if is_shown4 %}
+                    <form action="/{{ name }}/4/" method="post">
+                        <button class="button" onclick="" id="ans4">4) {{ ans4 }}</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 </div>
 <div>
     <div>

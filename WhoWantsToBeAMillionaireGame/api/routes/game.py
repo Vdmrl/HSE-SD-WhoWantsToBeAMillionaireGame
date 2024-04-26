@@ -49,7 +49,8 @@ async def get_members(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": True
     })
 
 
@@ -101,7 +102,8 @@ async def divide(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": False
     })
 
 
@@ -132,7 +134,8 @@ async def change(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": False
     })
 
 
@@ -163,7 +166,8 @@ async def extra_life(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": False
     })
 
 @router.get("/{name}/friend/")
@@ -194,7 +198,8 @@ async def friend(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": False
     })
 
 @router.post("/{name}/audience/")
@@ -224,7 +229,8 @@ async def audience(request: Request, name: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": True
+        "is_chart": True,
+        "is_start": False
     })
 
 @router.post("/{name}/{answer}/")
@@ -264,7 +270,8 @@ async def choose_answer(request: Request, name: str, answer: str):
         "awards": list(reversed(game.win_amounts)),
         "award": game.win_amounts[current_game.round],
         "records": await game.Game.get_records(10),
-        "is_chart": False
+        "is_chart": False,
+        "is_start": False
     })
 
 
