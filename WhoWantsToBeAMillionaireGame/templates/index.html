@@ -22,7 +22,13 @@
         <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
             Выберете подсказки
         </div>
-        <!-- Выбор подсказок -->
+        <form action="/submit_hints" method="post" id="hintsForm">
+            <input type="checkbox" name="hint" value="50/50"> Выбрать подсказку 50/50<br>
+            <input type="checkbox" name="hint" value="Change question"> Выбрать подсказку поменять вопрос<br>
+            <input type="checkbox" name="hint" value="Second chance"> Выбрать подсказку право на ошибку<br>
+            <input type="checkbox" name="hint" value="Phone a friend"> Выбрать подсказку Звонок другу<br>
+            <input type="checkbox" name="hint" value="Ask the audience"> Выбрать подсказку Помощь зала<br>
+        </form>
     {% else %}
         <div style="margin-top: 50px; font-size: 26px" class="text-sky-400/100"> <!-- Added class to the div element -->
             Подсказки
@@ -228,6 +234,17 @@
             });
         });
 
+    });
+    var checkboxes = document.querySelectorAll('input[type=checkbox][name="hint"]');
+    var maxLimit = 3;
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var checkedCount = document.querySelectorAll('input[type=checkbox][name="hint"]:checked').length;
+            if (checkedCount > maxLimit) {
+                this.checked = false;
+            }
+        });
     });
 </script>
 </body>
