@@ -12,6 +12,38 @@
 </head>
 <body class="text-sky-400/100"> <!-- Added class to the body element -->
 <div>
+
+    <!-- audion -->
+    {% if is_start %}
+        <audio autoplay src="{{ url_for('static', path='/sounds/choose.mp3') }}"></audio>
+    {% else %}
+        {% if play_first %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/initial.mp3') }}"></audio>
+        {% else %}
+            {% if is_answer %}
+                {% if is_right_answer %}
+                    <audio autoplay src="{{ url_for('static', path='/sounds/right.mp3') }}"></audio>
+                {% else %}
+                    <audio autoplay src="{{ url_for('static', path='/sounds/wrong.mp3') }}"></audio>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        {% if play_divide %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/50-50.mp3') }}"></audio>
+        {% endif %}
+        {% if play_change %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/some_hint.mp3') }}"></audio>
+        {% endif %}
+        {% if play_extra_life %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/some_hint.mp3') }}"></audio>
+        {% endif %}
+        {% if play_audience %}
+            <audio autoplay src="{{ url_for('static', path='/sounds/audience.mp3') }}"></audio>
+        {% endif %}
+    {% endif %}
+    <!-- end audion -->
+
     <div style="position: fixed; top: 10px; left: 10px">
         <form action="/" method="get">
             <button type="submit">
@@ -253,6 +285,20 @@
         });
     });
     document.getElementById("startButton").addEventListener("click", function () {
+        var selectedHints = Array.from(document.querySelectorAll('input[type=checkbox][name="hint"]:checked'))
+            .map(function (checkbox) {
+                return checkbox.value;
+            })
+            .join('');
+        var url = "http://127.0.0.1:8000/{{ name }}/" + (selectedHints.length > 0 ? selectedHints : "0") + "/0";
+        window.location.href = url;
+    });
+    document.getElementById("startButton").addEventListener("click", function () {
+        // Воспроизведение звука при нажатии кнопки "Начать игру"
+        var startSound = document.getElementById("startSound");
+        startSound.play();
+        // Конец добавленного кода
+
         var selectedHints = Array.from(document.querySelectorAll('input[type=checkbox][name="hint"]:checked'))
             .map(function (checkbox) {
                 return checkbox.value;

@@ -14,6 +14,7 @@ router = APIRouter(
 templates = Jinja2Templates(directory="templates")
 current_game = game.Game()
 current_quest = None
+is_first = True
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -23,7 +24,9 @@ async def registration(request: Request):
 
 @router.get("/{name}/", response_class=HTMLResponse)
 async def get_members(request: Request, name: str):
+    global is_first
     current_game = game.Game()
+    is_first = True
     global current_quest
     if not current_game.is_extra_life_activated and not current_quest or current_game.round == 0 or current_quest[
         6] != current_game.round + 1:
@@ -38,6 +41,14 @@ async def get_members(request: Request, name: str):
         "is_extra_life": current_game.help_extra_live,
         "is_friend": current_game.help_friend,
         "is_audience": current_game.help_audience,
+        "play_divide": False,
+        "play_change": False,
+        "play_extra_life": False,
+        "play_friend": False,
+        "play_audience": False,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -57,6 +68,7 @@ async def get_members(request: Request, name: str):
 @router.post("/{name}/{hints}/divide/")
 async def divide(request: Request, name: str, hints: str):
     global current_quest
+    global is_first
     if not current_game.is_extra_life_activated and not current_quest or current_game.round == 0 or current_quest[
         6] != current_game.round + 1:
         current_quest = await current_game.get_question()
@@ -92,6 +104,14 @@ async def divide(request: Request, name: str, hints: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": True,
+        "play_change": False,
+        "play_extra_life": False,
+        "play_friend": False,
+        "play_audience": False,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": show1,
         "is_shown2": show2,
         "is_shown3": show3,
@@ -111,6 +131,7 @@ async def divide(request: Request, name: str, hints: str):
 @router.post("/{name}/{hints}/change/")
 async def change(request: Request, name: str, hints: str):
     global current_quest
+    global is_first
     if current_game.help_change:
         current_game.help_change = False
         current_quest = await current_game.get_question()
@@ -125,6 +146,14 @@ async def change(request: Request, name: str, hints: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": False,
+        "play_change": True,
+        "play_extra_life": False,
+        "play_friend": False,
+        "play_audience": False,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -144,6 +173,7 @@ async def change(request: Request, name: str, hints: str):
 @router.post("/{name}/{hints}/extra_life/")
 async def extra_life(request: Request, name: str, hints: str):
     global current_quest
+    global is_first
     if current_game.help_extra_live:
         current_game.help_extra_live = False
         current_game.is_extra_life_activated = True
@@ -158,6 +188,14 @@ async def extra_life(request: Request, name: str, hints: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": False,
+        "play_change": False,
+        "play_extra_life": True,
+        "play_friend": False,
+        "play_audience": False,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -177,6 +215,7 @@ async def extra_life(request: Request, name: str, hints: str):
 @router.get("/{name}/{hints}/friend/")
 async def friend(request: Request, name: str, hints: str):
     global current_quest
+    global is_first
     if current_game.help_friend:
         current_game.help_friend = False
         current_game._round += 1
@@ -192,6 +231,14 @@ async def friend(request: Request, name: str, hints: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": False,
+        "play_change": False,
+        "play_extra_life": False,
+        "play_friend": True,
+        "play_audience": False,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -211,6 +258,7 @@ async def friend(request: Request, name: str, hints: str):
 @router.post("/{name}/{hints}/audience/")
 async def audience(request: Request, name: str, hints: str):
     global current_quest
+    global is_first
     if current_game.help_audience and current_quest:
         game.Game.get_chart(int(current_quest[5]))
         current_game.help_audience = False
@@ -225,6 +273,14 @@ async def audience(request: Request, name: str, hints: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": False,
+        "play_change": False,
+        "play_extra_life": False,
+        "play_friend": False,
+        "play_audience": True,
+        "is_answer": False,
+        "is_right_answer": False,
+        "play_first": is_first,
         "is_shown1": True,
         "is_shown2": True,
         "is_shown3": True,
@@ -244,11 +300,15 @@ async def audience(request: Request, name: str, hints: str):
 @router.get("/{name}/{hints}/{answer}/")
 async def choose_answer(request: Request, name: str, hints: str, answer: str):
     global current_quest
+    global is_first
     is_skipped = await current_game.give_answer(name, int(answer))
     if (not is_skipped) and (
             not current_quest or current_game.round == 0 or current_quest[6] != current_game.round + 1):
         current_quest = await current_game.get_question()
-
+    local_is_first = False
+    if is_first:
+        local_is_first = True
+        is_first = False
     show1 = True
     show2 = True
     show3 = True
@@ -268,6 +328,14 @@ async def choose_answer(request: Request, name: str, hints: str, answer: str):
         "is_extra_life": current_game.help_extra_live and "3" in hints,
         "is_friend": current_game.help_friend and "4" in hints,
         "is_audience": current_game.help_audience and "5" in hints,
+        "play_divide": False,
+        "play_change": False,
+        "play_extra_life": False,
+        "play_friend": False,
+        "play_audience": False,
+        "play_first": local_is_first,
+        "is_answer": True,
+        "is_right_answer": current_game.round != 0,
         "is_shown1": show1,
         "is_shown2": show2,
         "is_shown3": show3,
